@@ -2,11 +2,11 @@
   <div class="q-pa-md">
     <!-- ปุ่มเพิ่มผู้ใช้ -->
     <div class="q-mb-md">
-      <q-btn icon="add" label="เพิ่มผู้ใช้" color="primary" @click="onCreate" />
+      <q-btn icon="add" label="เพิ่มผู้ใช้" color="primary" @click="onCreate" class="q-mb-md" />
     </div>
 
     <!-- กรองข้อมูล & Loader -->
-    <q-input v-model="search" label="ค้นหาผู้ใช้..." dense filled clearable class="q-mb-md" />
+    <q-input v-model="search" label="ค้นหาผู้ใช้..." dense filled clearable class="q-mb-md" :color="search.length > 0 ? 'blue' : 'grey'" />
     <q-select
       v-model="genderFilter"
       :options="genderOptions"
@@ -15,26 +15,28 @@
       filled
       clearable
       class="q-mb-md"
+      :color="genderFilter ? 'purple' : 'grey'"
     />
 
     <q-table
-      title="Users"
+      title="ผู้ใช้งานทั้งหมด"
       :rows="filteredRows"
       :columns="columns"
       row-key="id"
       :loading="loading"
       v-if="rows.length > 0"
+      class="bg-light-blue-1"
     >
       <template v-slot:body-cell-actions="props">
         <q-td :props="props">
-          <q-btn flat dense round icon="edit" color="blue" @click="onEdit(props.row.id)" />
+          <q-btn flat dense round icon="edit" color="blue" @click="onEdit(props.row.id)" class="q-mr-sm" />
           <q-btn flat dense round icon="delete" color="red" @click="onDelete(props.row.id)" />
         </q-td>
       </template>
     </q-table>
 
     <!-- กรณีไม่มีข้อมูล -->
-    <q-banner v-else class="bg-grey-3 text-dark q-pa-md">
+    <q-banner v-else class="bg-grey-3 text-dark q-pa-md shadow-2">
       ไม่มีข้อมูลผู้ใช้
     </q-banner>
   </div>
@@ -118,3 +120,22 @@ const onDelete = async (id) => {
 // โหลดข้อมูลเมื่อเปิดหน้า
 onMounted(fetchData);
 </script>
+
+<style scoped>
+.q-btn {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.q-banner {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.q-table {
+  border-radius: 8px;
+}
+
+.q-select, .q-input {
+  border-radius: 8px;
+}
+</style>
